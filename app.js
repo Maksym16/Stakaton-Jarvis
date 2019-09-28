@@ -40,18 +40,17 @@ function modelReady() {
   console.log("model ready");
 }
 // ********** Player functions
-var Player = document.getElementById("player"); 
-let times = 0, playY
-
-
+var Player = document.getElementById("player");
+let times = 0,
+  playY;
+// play function will ad att autoplay to url
 function play() {
   if (times == 0) {
     playY = Player.src += "?autoplay=1";
-    times = 1
+    times = 1;
   }
-} 
-
-
+}
+//pause will remove play and return original url
 function pause() {
   if (times == 1) {
     playY = playY.slice(0, -11);
@@ -59,22 +58,21 @@ function pause() {
     times = 0;
   }
 }
-// got pose 
+// got pose
 function gotPoses(poses) {
   if (poses.length > 0) {
     let lwX = poses[0].pose.keypoints[9].position.x;
     let lwY = poses[0].pose.keypoints[9].position.y;
     let rwX = poses[0].pose.keypoints[10].position.x;
     let rwY = poses[0].pose.keypoints[10].position.y;
- 
 
     // lerp function allowes me to make my moves nice and smoth
     leftWristX = lerp(leftWristX, lwX, 0.4);
     leftWristY = lerp(leftWristY, lwY, 0.4);
     rightWristX = lerp(rightWristX, rwX, 0.4);
     rightWristY = lerp(rightWristY, rwY, 0.4);
-    
 
+    //creation of containers for tracking diferent actions
     if (lwX > 1200 && lwX < 1500 && (lwY > 600 && lwY < 900)) {
       if (playTriger) {
         console.log("PLAY");
@@ -87,7 +85,7 @@ function gotPoses(poses) {
 
     if (lwX > 1200 && lwX < 1500 && (lwY > 50 && lwY < 350)) {
       if (pauseTriger) {
-        console.log('pause')
+        console.log("pause");
         pauseTriger = false;
         return pause();
       }
@@ -99,7 +97,6 @@ function gotPoses(poses) {
       if (next) {
         console.log("NEXT");
         next = false;
-        return gotSpeach();
       }
     } else {
       next = true;
@@ -119,42 +116,47 @@ function gotPoses(poses) {
 function draw() {
   image(video, 0, 0, width, height);
   fill(255, 0, 0);
-
   ellipse(leftWristX, leftWristY, 50);
+
   fill(0, 0, 255);
   ellipse(rightWristX, rightWristY, 50);
 }
 
-
-
-
 //SPEACH BOT
-let count = 0
+let count = 0;
+var msg;
 function gotSpeach() {
-  console.log(speachRec.resultString);				
-
-  if (speachRec.resultValue && count == 0) {
- 
-       var msg = new SpeechSynthesisUtterance(serchAndReply(speachRec.resultString));
-       window.speechSynthesis.speak(msg);
-    
-     
-    count = 1
-  } else {
-    count = 0
+  console.log(speachRec.resultString);
+  console.log(count)
+  if (speachRec.resultValue && count === 0) {
+    msg = serchAndReply(speachRec.resultString);
+    myVoice.speak(msg);
+    return count = 1;
   }
-	
-			
+  setTimeout(function() {
+    return count = 0
+  }, 3000);
 }
-	
+
+//itarate over object and looking if str is a key, if ita true, send respound else send I dont understand
 function serchAndReply(str) {
   let replies = {
-    'hey': 'Hey, how are u?',
-    'Max': "play",
-  }
+    "hey Jarvis": "Hey, how are you today Max?",
+    "Jarvis play": () => {return play()},
+    "introduce yourself":
+      "My name is Jarvis, I'm a smart player",
+    "what can you do": "I can talk, play and pause video for you",
+    "Jarvis are you smart":
+      "Smarter then you. I know how to do binary search and u not",
+    "how to do binary search":
+      "I don't tell you",
+    "thank you": "my pleasure"
+  };
   for (let key in replies) {
     if (key === str) {
-      return replies[key]
+      return replies[str];
     }
   }
+
+  return "Repeat again please";
 }
