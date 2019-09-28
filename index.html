@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- load p5.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js" ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js" ></script>
+  <!-- load ml5.js -->
+  <script src="https://unpkg.com/ml5@0.2.3/dist/ml5.min.js" type="text/javascript" ></script>
+  <script src="./p5.speech.js"></script>
+  <script defer src="https://kit.fontawesome.com/f1a686207a.js"></script>
+  <!-- <link rel="stylesheet" href="/font-awesome.min.css" /> -->
+  <!-- keep the video in center of browser -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="videoContainer"></div>
+  <!-- load the posenet.js file -->
+   <div class="hello">
+
+      <div id='player-start-pause'>
+        <i class="fas fa-pause-circle" id="stop"></i>
+        
+        <i class="fab fa-google-play" id="start"></i>
+      </div>
+
+      <div class="player_container">
+        <div class="jarvis">
+          <img src='LhJRGQiFfVWRW2RQvzqz3tXHn.png' id='logo' />
+        </div>
+        <div>
+          <iframe width="1200" height="750" src="https://www.youtube.com/embed/rlR4PJn8b8I" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen id="player"></iframe>
+        </div>
+        <div>
+          <!-- chat -->
+        </div> 
+      </div>
+
+      <div id='sidebar'>
+        <i class="fas fa-forward" id="next"></i>
+        <i class="fas fa-backward" id="previous"></i>
+      </div> 
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
