@@ -7,13 +7,15 @@ let leftWristX = 0;
 let leftWristY = 0;
 let rightWristX = 0;
 let rightWristY = 0;
-
+let noseX = 0;
+let noseY = 0;
 
 //toggel constants
 let playTriger = true;
 let pauseTriger = true;
 let next = true;
 let previous = true;
+let jarvis = true;
 
 // setup function for creating video and canvas
 function setup() {
@@ -30,12 +32,13 @@ function setup() {
 
   //Create SpeachRec and Speech method
   let lang = navigator.language || "en-US";
-  speachRec = new p5.SpeechRec(lang, gotSpeach); // new P5.SpeechRec object
+  speachRec = new p5.SpeechRec(lang); // new P5.SpeechRec object
   myVoice = new p5.Speech("Google UK English Male");
   let continous = true;
   let interim = false;
   speachRec.start(continous, interim);
 }
+
 
 function modelReady() {
   console.log("model ready");
@@ -130,12 +133,16 @@ function gotPoses(poses) {
     let lwY = poses[0].pose.keypoints[9].position.y;
     let rwX = poses[0].pose.keypoints[10].position.x;
     let rwY = poses[0].pose.keypoints[10].position.y;
+    let nX = poses[0].pose.keypoints[0].position.x;
+    let nY = poses[0].pose.keypoints[0].position.y;
 
     // lerp function allowes me to make my moves nice and smoth
     leftWristX = lerp(leftWristX, lwX, 0.4);
     leftWristY = lerp(leftWristY, lwY, 0.4);
     rightWristX = lerp(rightWristX, rwX, 0.4);
     rightWristY = lerp(rightWristY, rwY, 0.4);
+    noseX = lerp(noseX, nX, 0.4);
+    noseY = lerp(noseY, nY, 0.4);
 
     //creation of containers for tracking diferent actions
     if (lwX > 1200 && lwX < 1500 && (lwY > 600 && lwY < 900)) {
@@ -150,7 +157,7 @@ function gotPoses(poses) {
 
     if (lwX > 1200 && lwX < 1500 && (lwY > 50 && lwY < 350)) {
       if (pauseTriger) {
-        console.log("pause");
+        console.log("PAUSE");
         pauseTriger = false;
         return pause();
       }
@@ -177,6 +184,15 @@ function gotPoses(poses) {
     } else {
       previous = true;
     }
+
+    if ((nX > 700 && nX < 1000) && (nY > 10 && nY < 20)) {
+
+      console.log('JARVIS')
+      gotSpeach();
+      return (jarvis = false);
+    } else {
+      jarvis = true;
+    }
   }
 }
 
@@ -195,14 +211,11 @@ var msg;
 function gotSpeach() {
   console.log(speachRec.resultString);
   console.log(count);
-  if (speachRec.resultValue && count === 0) {
+  if (speachRec.resultValue && jarvis === true) {
     msg = serchAndReply(speachRec.resultString);
     myVoice.speak(msg);
-    return (count = 1);
   }
-  setTimeout(function() {
-    return (count = 0);
-  }, 3000);
+
 }
 
 //itarate over object and looking if str is a key, if ita true, send respound else send I dont understand
@@ -211,7 +224,7 @@ function serchAndReply(str) {
     "hey Jarvis": "Hey, how are you today Max?",
     "introduce yourself": "My name is Jarvis, I'm a smart player",
     "what can you do": "I can talk, play and pause video for you",
-    "Jarvis are you smart":
+    "are you really smart":
       "Smarter then you. I know how to do binary search and u not",
     "how to do binary search": "I don't tell you",
     "thank you": "my pleasure"
