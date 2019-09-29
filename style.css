@@ -28,14 +28,14 @@ video {
 }
 
 iframe {
-   box-shadow: 0 7px 12px 0 rgba(0, 0, 0, 0.24),
+  box-shadow: 0 7px 12px 0 rgba(0, 0, 0, 0.24),
     0 17px 50px 0 rgba(68, 67, 67, 0.19);
 }
 #player-start-pause {
   display: flex;
   flex-direction: column;
   width: 10%;
-  height: 96%;
+  height: 100%;
   background-color: #333;
   border-right: 2px solid gray;
   justify-content: space-between;
@@ -43,23 +43,27 @@ iframe {
   padding-top: 20px;
 }
 
-#start,#stop {
+#start,
+#stop {
   height: 100px;
   width: 100px;
   font-size: 100px;
   padding: 20px;
   z-index: 5;
   color: rgb(35, 114, 89);
-   text-shadow: 2px 2px 2px  rgb(121, 189, 166), 2px 2px 2px  rgb(181, 233, 215), 2px 2px 2px rgb(214, 238, 230);
+  text-shadow: 2px 2px 2px rgb(121, 189, 166), 2px 2px 2px rgb(181, 233, 215),
+    2px 2px 2px rgb(214, 238, 230);
 }
-#next,#previous {
+#next,
+#previous {
   height: 100px;
   width: 250px;
   font-size: 100px;
   padding: 20px;
   z-index: 5;
   color: rgb(34, 116, 88);
-  text-shadow: 2px 2px 2px  rgb(121, 189, 166), 2px 2px 2px  rgb(181, 233, 215), 2px 2px 2px rgb(214, 238, 230);
+  text-shadow: 2px 2px 2px rgb(121, 189, 166), 2px 2px 2px rgb(181, 233, 215),
+    2px 2px 2px rgb(214, 238, 230);
 }
 
 .jarvis {
@@ -69,17 +73,16 @@ iframe {
   margin: 5px 5px 5px 5px;
 }
 
-
 #sidebar {
   width: 20%;
-  height: 96%;
+  height: 100%;
   background-color: #333;
   border-left: 2px solid gray;
   display: flex;
   justify-content: space-between;
   padding-bottom: 20px;
   padding-top: 20px;
-  flex-direction: column; 
+  flex-direction: column;
 }
 
 .player_container {
@@ -87,26 +90,40 @@ iframe {
   flex-direction: column;
   height: 100%;
   width: 76%;
- 
 }
 
 #player-controls {
   background-color: #333;
   box-shadow: 0px -2px 2px #5a5a5a;
   height: 100%;
-  width: 100%
-} 
+  width: 100%;
+}
 .logo_sidebare {
   height: 58%;
-  width: 96%;
-  margin: 5px;
-  background-color: antiquewhite;
+  width: 94%;
+  margin: 7px;
+  background-color: rgb(209, 207, 204);
+  border-radius: 5px;
 }
- 
+
 #sidebare-pic {
   width: 90%;
+  box-shadow: 0 10px 12px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(68, 67, 67, 0.19);
+
 }
 
 #sidebare-name {
-  
+  font-size: 20px;
+  color: rgb(75, 72, 72);
+  text-shadow: 2px 2px 2px #9c9898;
+  font-size: 20px;
+}
+
+.chat {
+  background-color: #333;
+  border-right: 2px solid gray;
+  position: relative;
+  top: 85px;
+  height: 40px;
 }

@@ -43,10 +43,11 @@ function modelReady() {
 var Player = document.getElementById("player");
 let sidebarName = document.getElementById("sidebare-name");
 let sidbarePic = document.getElementById("sidebare-pic");
-let times = 0,
-  playY;
-// play function will ad att autoplay to url
 
+let times = 0,
+playY;
+
+// play function will ad att autoplay to url
 function play() {
   if (times == 0) {
     playY = Player.src += "?autoplay=1";
