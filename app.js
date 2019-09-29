@@ -8,6 +8,7 @@ let leftWristY = 0;
 let rightWristX = 0;
 let rightWristY = 0;
 
+
 //toggel constants
 let playTriger = true;
 let pauseTriger = true;
@@ -62,7 +63,7 @@ function pause() {
     times = 0;
   }
 }
-let track = 0;
+
 let urls = [
   {
     name: "Game of Thrones",
@@ -96,29 +97,31 @@ let urls = [
     imgUrl: "public/download.jpeg"
   }
 ];
-console.log(urls[track].src);
+let track = 0;
 function nextTrack() {
-  if (track > 5) {
-    track = 0;
-    return (Player.src = urls[0].src);
-  } else {
+  console.log(track)
+  if (track === 5) {
+    Player.src = urls[0].src;
+    return track = 0;
+  } 
     track += 1;
     Player.src = urls[track].src;
     sidebarName.innerHTML = urls[track].name;
     sidbarePic.src = urls[track].imgUrl;
-  }
+  
 }
 
 function previousTrack() {
-  if (track < 0) {
-    track = 5;
-    return (Player.src = urls[5].src);
-  } else {
+  console.log(track)
+  if (track === 0) {
+    Player.src = urls[0].src;
+    return track = 5
+  } 
     track -= 1;
     Player.src = urls[track].src;
     sidebarName.innerHTML = urls[track].name;
     sidbarePic.src = urls[track].imgUrl;
-  }
+  
 }
 // got pose
 function gotPoses(poses) {
