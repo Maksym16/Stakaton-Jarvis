@@ -41,9 +41,12 @@ function modelReady() {
 }
 // ********** Player functions
 var Player = document.getElementById("player");
+let sidebarName = document.getElementById("sidebare-name");
+let sidbarePic = document.getElementById("sidebare-pic");
 let times = 0,
   playY;
 // play function will ad att autoplay to url
+
 function play() {
   if (times == 0) {
     playY = Player.src += "?autoplay=1";
@@ -56,6 +59,64 @@ function pause() {
     playY = playY.slice(0, -11);
     Player.src = playY;
     times = 0;
+  }
+}
+let track = 0;
+let urls = [
+  {
+    name: "Game of Thrones",
+    src: "https://www.youtube.com/embed/giYeaKsXnsI",
+    imgUrl: "public/MV5BMjA5NzA5NjMwNl5BMl5BanBnXkFtZTgwNjg2OTk2NzM@._V1_.jpg"
+  },
+  {
+    name: "Hobbit",
+    src: "https://www.youtube.com/embed/iVAgTiBrrDA",
+    imgUrl: "public/MV5BODAzMDgxMDc1MF5BMl5BanBnXkFtZTgwMTI0OTAzMjE@._V1_.jpg"
+  },
+  {
+    name: "Peaky Blinders",
+    src: "https://www.youtube.com/embed/Ruyl8_PT_y8",
+    imgUrl: "public/300.jpeg"
+  },
+  {
+    name: "Rush",
+    src: "https://www.youtube.com/embed/4XA73ni9eVs",
+    imgUrl:
+      "public/MV5BOWEwODJmZDItYTNmZC00OGM4LThlNDktOTQzZjIzMGQxODA4XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg"
+  },
+  {
+    name: "Avengers",
+    src: "https://www.youtube.com/embed/TcMBFSGVi1c",
+    imgUrl: "public/The_Avengers_Endgame_Poster.jpg"
+  },
+  {
+    name: "Molly's Game",
+    src: "https://www.youtube.com/embed/Vu4UPet8Nyc",
+    imgUrl: "public/download.jpeg"
+  }
+];
+console.log(urls[track].src);
+function nextTrack() {
+  if (track > 5) {
+    track = 0;
+    return (Player.src = urls[0].src);
+  } else {
+    track += 1;
+    Player.src = urls[track].src;
+    sidebarName.innerHTML = urls[track].name;
+    sidbarePic.src = urls[track].imgUrl;
+  }
+}
+
+function previousTrack() {
+  if (track < 0) {
+    track = 5;
+    return (Player.src = urls[5].src);
+  } else {
+    track -= 1;
+    Player.src = urls[track].src;
+    sidebarName.innerHTML = urls[track].name;
+    sidbarePic.src = urls[track].imgUrl;
   }
 }
 // got pose
@@ -97,6 +158,7 @@ function gotPoses(poses) {
       if (next) {
         console.log("NEXT");
         next = false;
+        return nextTrack();
       }
     } else {
       next = true;
@@ -106,6 +168,7 @@ function gotPoses(poses) {
       if (previous) {
         console.log("PREVIOUS");
         previous = false;
+        return previousTrack();
       }
     } else {
       previous = true;
@@ -127,14 +190,14 @@ let count = 0;
 var msg;
 function gotSpeach() {
   console.log(speachRec.resultString);
-  console.log(count)
+  console.log(count);
   if (speachRec.resultValue && count === 0) {
     msg = serchAndReply(speachRec.resultString);
     myVoice.speak(msg);
-    return count = 1;
+    return (count = 1);
   }
   setTimeout(function() {
-    return count = 0
+    return (count = 0);
   }, 3000);
 }
 
@@ -142,14 +205,11 @@ function gotSpeach() {
 function serchAndReply(str) {
   let replies = {
     "hey Jarvis": "Hey, how are you today Max?",
-    "Jarvis play": () => {return play()},
-    "introduce yourself":
-      "My name is Jarvis, I'm a smart player",
+    "introduce yourself": "My name is Jarvis, I'm a smart player",
     "what can you do": "I can talk, play and pause video for you",
     "Jarvis are you smart":
       "Smarter then you. I know how to do binary search and u not",
-    "how to do binary search":
-      "I don't tell you",
+    "how to do binary search": "I don't tell you",
     "thank you": "my pleasure"
   };
   for (let key in replies) {
