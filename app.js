@@ -199,7 +199,7 @@ var msg;
 function gotSpeach() {
   console.log(speachRec.resultString);
   
-  if (speachRec.resultString.plit(' ').includes('hey') && jarvis === true) {
+  if (speachRec.resultString.split(' ').includes('hey') && jarvis === true) {
     msg = serchAndReply(speachRec.resultString);
     myVoice.speak(msg);
     jarvis = false;
