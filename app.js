@@ -32,7 +32,7 @@ function setup() {
 
   //Create SpeachRec and Speech method
   let lang = navigator.language || "en-US";
-  speachRec = new p5.SpeechRec(lang); // new P5.SpeechRec object
+  speachRec = new p5.SpeechRec(lang, gotSpeach); // new P5.SpeechRec object
   myVoice = new p5.Speech("Google UK English Male");
   let continous = true;
   let interim = false;
@@ -103,28 +103,30 @@ let urls = [
 let track = 0;
 function nextTrack() {
   console.log(track)
-  if (track === 5) {
+  if (track == 5) {
+    track = 0;
     Player.src = urls[0].src;
-    return track = 0;
-  } 
-    track += 1;
-    Player.src = urls[track].src;
-    sidebarName.innerHTML = urls[track].name;
-    sidbarePic.src = urls[track].imgUrl;
+    
+  } else {
+     track += 1;
+     Player.src = urls[track].src;
+     sidebarName.innerHTML = urls[track].name;
+     sidbarePic.src = urls[track].imgUrl;
+  }
   
 }
 
 function previousTrack() {
   console.log(track)
-  if (track === 0) {
-    Player.src = urls[0].src;
-    return track = 5
-  } 
+  if (track == 0) {
+    track = 5;
+    Player.src = urls[5].src;
+  } else {
     track -= 1;
     Player.src = urls[track].src;
     sidebarName.innerHTML = urls[track].name;
     sidbarePic.src = urls[track].imgUrl;
-  
+  }
 }
 // got pose
 function gotPoses(poses) {
@@ -145,53 +147,40 @@ function gotPoses(poses) {
     noseY = lerp(noseY, nY, 0.4);
 
     //creation of containers for tracking diferent actions
-    if (lwX > 1200 && lwX < 1500 && (lwY > 600 && lwY < 900)) {
-      if (playTriger) {
+    if ((lwX > 1300 && lwX < 1500) && (lwY > 700 && lwY < 900) && playTriger) {
         console.log("PLAY");
         playTriger = false;
-        return play();
-      }
-    } else {
-      playTriger = true;
+        play();
+        setTimeout(function() {
+          playTriger = true;
+        }, 3000);
     }
 
-    if (lwX > 1200 && lwX < 1500 && (lwY > 50 && lwY < 350)) {
-      if (pauseTriger) {
+    if ((lwX > 1300 && lwX < 1500) && (lwY > 50 && lwY < 250) && pauseTriger) {
         console.log("PAUSE");
         pauseTriger = false;
-        return pause();
-      }
-    } else {
-      pauseTriger = true;
+        pause();
+        setTimeout(function() {
+        pauseTriger = true;
+      }, 3000);
     }
 
-    if (rwX > 50 && rwX < 350 && (rwY > 50 && rwY < 350)) {
-      if (next) {
-        console.log("NEXT");
-        next = false;
-        return nextTrack();
-      }
-    } else {
-      next = true;
+    if ((rwX > 50 && rwX < 250) && (rwY > 50 && rwY < 250) && next) {
+      console.log("NEXT");
+      next = false;
+      nextTrack();
+      setTimeout(function() {
+        next = true;
+      }, 3000);
     }
 
-    if (rwX > 50 && rwX < 350 && (rwY > 600 && rwY < 900)) {
-      if (previous) {
-        console.log("PREVIOUS");
-        previous = false;
-        return previousTrack();
-      }
-    } else {
-      previous = true;
-    }
-
-    if ((nX > 700 && nX < 1000) && (nY > 10 && nY < 20)) {
-
-      console.log('JARVIS')
-      gotSpeach();
-      return (jarvis = false);
-    } else {
-      jarvis = true;
+    if ((rwX > 50 && rwX < 250 ) && (rwY > 700 && rwY < 900) && previous) {
+      console.log("PREVIOUS");
+      previous = false;
+      previousTrack();
+      setTimeout(function() {
+        previous = true;
+      }, 3000);
     }
   }
 }
@@ -206,28 +195,34 @@ function draw() {
 }
 
 //SPEACH BOT
-let count = 0;
 var msg;
 function gotSpeach() {
   console.log(speachRec.resultString);
-  console.log(count);
-  if (speachRec.resultValue && jarvis === true) {
+  
+  if (speachRec.resultString.plit(' ').includes('hey') && jarvis === true) {
     msg = serchAndReply(speachRec.resultString);
     myVoice.speak(msg);
+    jarvis = false;
+    console.log(jarvis);
+    setTimeout(function() {
+      jarvis = true;
+      console.log(jarvis);
+    }, 3000);
   }
-
+  
+ 
 }
 
 //itarate over object and looking if str is a key, if ita true, send respound else send I dont understand
 function serchAndReply(str) {
   let replies = {
-    "hey Jarvis": "Hey, how are you today Max?",
-    "introduce yourself": "My name is Jarvis, I'm a smart player",
-    "what can you do": "I can talk, play and pause video for you",
-    "are you really smart":
+    "hey Jarvis": "Hey. How are you today Max?",
+    "hey introduce yourself": "My name is Jarvis, I'm a smart player",
+    "hey what can you do": "I can talk, play and pause video for you",
+    "hey are you really smart":
       "Smarter then you. I know how to do binary search and u not",
-    "how to do binary search": "I don't tell you",
-    "thank you": "my pleasure"
+    "hey how to do binary search": "I don't tell you, go and read",
+    "hey thank you": "my pleasure"
   };
   for (let key in replies) {
     if (key === str) {
