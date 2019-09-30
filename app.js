@@ -47,7 +47,7 @@ function modelReady() {
 var Player = document.getElementById("player");
 let sidebarName = document.getElementById("sidebare-name");
 let sidbarePic = document.getElementById("sidebare-pic");
-
+let action = document.getElementById("action")
 let times = 0,
 playY;
 
@@ -148,7 +148,7 @@ function gotPoses(poses) {
 
     //creation of containers for tracking diferent actions
     if ((lwX > 1300 && lwX < 1500) && (lwY > 700 && lwY < 900) && playTriger) {
-        console.log("PLAY");
+        action.innerHTML = "PLAY";
         playTriger = false;
         play();
         setTimeout(function() {
@@ -157,7 +157,7 @@ function gotPoses(poses) {
     }
 
     if ((lwX > 1300 && lwX < 1500) && (lwY > 50 && lwY < 250) && pauseTriger) {
-        console.log("PAUSE");
+        action.innerHTML = "PAUSE";
         pauseTriger = false;
         pause();
         setTimeout(function() {
@@ -166,7 +166,7 @@ function gotPoses(poses) {
     }
 
     if ((rwX > 50 && rwX < 250) && (rwY > 50 && rwY < 250) && next) {
-      console.log("NEXT");
+      action.innerHTML = "NEXT";
       next = false;
       nextTrack();
       setTimeout(function() {
@@ -175,7 +175,7 @@ function gotPoses(poses) {
     }
 
     if ((rwX > 50 && rwX < 250 ) && (rwY > 700 && rwY < 900) && previous) {
-      console.log("PREVIOUS");
+      action.innerHTML = "PREVIOUS";
       previous = false;
       previousTrack();
       setTimeout(function() {
