@@ -11,3 +11,6 @@ To PAUSE video rise your left hand in left top corner.
 To PLAY put it down to the left bbottom corner.
 To scroll NEXT rise your right hand to the up riight corner.
 To scroll PREVIOUS put your right hand to the right bottom corner.
+
+
+****** To start program copy path of html file to your browser URL ********
